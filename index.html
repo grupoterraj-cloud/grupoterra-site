@@ -423,6 +423,46 @@ canvas.curvas { position: absolute; pointer-events: none; opacity: .55; }
   .pre-form { padding: 20px; }
   .pre-form .dupla { grid-template-columns: 1fr; }
 }
+
+/* Alternância de fundos entre seções (evita cansaço visual) */
+.fundo-branco { background: #ffffff; }
+.fundo-areia { background: #faf3e4; }
+.fundo-verde { background: linear-gradient(180deg, #eef3e6 0%, #e8efdf 100%); }
+.fundo-branco + .fundo-branco, .fundo-areia + .fundo-areia { background: #fbfcf8; }
+
+/* Linha separadora dourada no topo do título */
+.bloco .cabeca .rotulo,
+.bloco .miolo > div > .rotulo,
+.pre .miolo > div > .rotulo { position: relative; display: inline-block; padding-left: 36px; }
+.bloco .cabeca .rotulo::before,
+.bloco .miolo > div > .rotulo::before,
+.pre .miolo > div > .rotulo::before {
+  content: ""; position: absolute; left: 0; top: 50%;
+  width: 26px; height: 2px; background: var(--ouro); transform: translateY(-50%);
+}
+.diagnostico .rotulo::before, .contato .rotulo::before { background: var(--ouro-claro); }
+
+/* Faixa-foto decorativa (parallax leve, sem texto) */
+.faixa-foto {
+  height: 240px; background-size: cover; background-position: center;
+  background-attachment: fixed; position: relative;
+}
+.faixa-foto::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(29,51,32,.35) 0%, rgba(29,51,32,.15) 50%, rgba(29,51,32,.35) 100%);
+}
+@supports (-webkit-touch-callout: none) { .faixa-foto { background-attachment: scroll; } }
+
+/* Fade/subida ao rolar */
+.anima { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
+.anima.visivel { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 640px) {
+  .faixa-foto { height: 160px; background-attachment: scroll; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .anima { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
 </style>
 </head>
 <body>
@@ -473,7 +513,7 @@ canvas.curvas { position: absolute; pointer-events: none; opacity: .55; }
     </div>
   </section>
 
-  <section class="provas" aria-label="Grupo Terra em números">
+  <section class="provas fundo-branco anima" aria-label="Grupo Terra em números">
     <div class="wrap">
       <div class="numeros">
         <div class="numero"><b>+300</b><span>serviços realizados em Pernambuco e na Paraíba</span></div>
@@ -488,7 +528,7 @@ canvas.curvas { position: absolute; pointer-events: none; opacity: .55; }
     </div>
   </section>
 
-  <section class="bloco vantagens" id="por-que">
+  <section class="bloco vantagens fundo-areia anima" id="por-que">
     <div class="wrap">
       <div class="cabeca">
         <span class="rotulo">Por que regularizar</span>
@@ -524,7 +564,7 @@ canvas.curvas { position: absolute; pointer-events: none; opacity: .55; }
     </div>
   </section>
 
-  <section class="bloco docs" id="documentos">
+  <section class="bloco docs fundo-branco anima" id="documentos">
     <div class="wrap">
       <div class="cabeca">
         <span class="rotulo">Entenda os documentos</span>
@@ -590,7 +630,9 @@ canvas.curvas { position: absolute; pointer-events: none; opacity: .55; }
     </div>
   </section>
 
-  <section class="bloco servicos" id="servicos">
+  <div class="faixa-foto anima" style="background-image:url(img/vale-azul.jpg);" aria-hidden="true"></div>
+
+  <section class="bloco servicos fundo-verde anima" id="servicos">
     <canvas class="curvas" aria-hidden="true" data-semente="3"></canvas>
     <div class="wrap">
       <div class="cabeca">
@@ -633,7 +675,7 @@ canvas.curvas { position: absolute; pointer-events: none; opacity: .55; }
     </div>
   </section>
 
-  <section class="bloco tecnologia">
+  <section class="bloco tecnologia fundo-branco anima">
     <div class="wrap miolo">
       <div class="foto"><img src="img/coletora-campo.jpg" alt="Receptor GNSS no bastão e coletora de dados em campo, com a encosta ao fundo" width="975" height="1300" loading="lazy"></div>
       <div>
@@ -650,7 +692,7 @@ canvas.curvas { position: absolute; pointer-events: none; opacity: .55; }
     </div>
   </section>
 
-  <section class="bloco" id="como-trabalhamos">
+  <section class="bloco fundo-areia anima" id="como-trabalhamos">
     <div class="wrap">
       <div class="cabeca">
         <span class="rotulo">Como trabalhamos</span>
@@ -665,7 +707,7 @@ canvas.curvas { position: absolute; pointer-events: none; opacity: .55; }
     </div>
   </section>
 
-  <section class="bloco" id="compromissos">
+  <section class="bloco fundo-branco anima" id="compromissos">
     <div class="wrap">
       <div class="cabeca">
         <span class="rotulo">Nosso compromisso</span>
@@ -681,7 +723,7 @@ canvas.curvas { position: absolute; pointer-events: none; opacity: .55; }
     </div>
   </section>
 
-  <section class="bloco galeria" id="trabalhos">
+  <section class="bloco galeria fundo-verde anima" id="trabalhos">
     <div class="wrap">
       <div class="cabeca">
         <span class="rotulo">Trabalhos</span>
@@ -703,7 +745,7 @@ canvas.curvas { position: absolute; pointer-events: none; opacity: .55; }
     </div>
   </section>
 
-  <section class="bloco pre" id="pre-orcamento">
+  <section class="bloco pre anima" id="pre-orcamento">
     <div class="wrap miolo">
       <div>
         <span class="rotulo">Orçamento sem enrolação</span>
@@ -758,7 +800,7 @@ canvas.curvas { position: absolute; pointer-events: none; opacity: .55; }
     </div>
   </section>
 
-  <section class="bloco diagnostico" id="diagnostico">
+  <section class="bloco diagnostico anima" id="diagnostico">
     <div class="wrap miolo">
       <div>
         <span class="rotulo">Checklist rápido</span>
@@ -781,7 +823,7 @@ canvas.curvas { position: absolute; pointer-events: none; opacity: .55; }
     </div>
   </section>
 
-  <section class="insta" id="instagram">
+  <section class="insta fundo-branco anima" id="instagram">
     <div class="wrap">
       <div class="caixa">
         <div>
@@ -794,7 +836,7 @@ canvas.curvas { position: absolute; pointer-events: none; opacity: .55; }
     </div>
   </section>
 
-  <section class="bloco responsavel">
+  <section class="bloco responsavel fundo-areia anima">
     <div class="wrap miolo">
       <div class="foto"><img src="img/tripe-por-do-sol.jpg" alt="Base GNSS no tripé com o sol se pondo atrás das pedras" width="975" height="1300" loading="lazy"></div>
       <div>
@@ -910,6 +952,18 @@ canvas.curvas { position: absolute; pointer-events: none; opacity: .55; }
     form.addEventListener('change', atualizar);
     form.addEventListener('input', atualizar);
     atualizar();
+  })();
+
+  // Fade/subida ao rolar: as seções com .anima aparecem quando entram na tela
+  (function () {
+    var alvos = document.querySelectorAll('.anima'); if (!alvos.length) return;
+    if (!('IntersectionObserver' in window)) { alvos.forEach(function (n) { n.classList.add('visivel'); }); return; }
+    var io = new IntersectionObserver(function (ents) {
+      ents.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('visivel'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    alvos.forEach(function (n) { io.observe(n); });
   })();
 
   // Cabeçalho ganha borda ao rolar
