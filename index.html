@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grupo Terra Topografia</title>
+<meta name="description" content="Grupo Terra: topografia, georreferenciamento e regularização fundiária rural em Pernambuco e na Paraíba. Mais de 300 serviços realizados. Levantamento com GNSS e drone, ITR, CCIR e CAR.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Grupo Terra">
+<meta property="og:title" content="Grupo Terra | Topografia e regularização fundiária rural">
+<meta property="og:description" content="Sua terra medida com precisão e regularizada com segurança. Georreferenciamento, CAR, CCIR e ITR em Pernambuco e na Paraíba.">
+<meta property="og:image" content="https://grupoterrape.com.br/img/hero.jpg">
+<meta property="og:url" content="https://grupoterrape.com.br/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Grupo Terra | Topografia e regularização fundiária rural">
+<meta name="twitter:description" content="Georreferenciamento, CAR, CCIR e ITR em Pernambuco e na Paraíba.">
+<meta name="twitter:image" content="https://grupoterrape.com.br/img/hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Marcellus&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Grupo Terra",
+  "url": "https://grupoterrape.com.br/",
+  "description": "Topografia, georreferenciamento e regularização fundiária.",
+  "telephone": "+55 81 99188-5622",
+  "email": "GrupoTerraj@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Rua Dom Pedro II, 245, Centro",
+    "addressLocality": "Bezerros",
+    "addressRegion": "PE",
+    "addressCountry": "BR"
+  },
+  "areaServed": [{"@type":"State","name":"Pernambuco"},{"@type":"State","name":"Paraíba"}],
+  "sameAs": ["https://www.instagram.com/grupo_terra00/"]
+}
+</script>
+<style>
+/* Layout: cabeçalho fixo, abertura com a foto da pedra ao pôr do sol, seções em coluna única com grade de serviços e galeria em colunas. Curvas de nível desenhadas em canvas como marca d'água. */
+:root {
+  --verde-escuro: #1d3320;
+  --verde: #2b4a2c;
+  --verde-medio: #4f7a34;
+  --folha: #6b9a3e;
+  --ouro: #a97a2c;
+  --ouro-claro: #c9a86a;
+  --areia: #f3e9d4;
+  --fundo: #f4f6f0;
+  --superficie: #ffffff;
+  --texto: #1e2a1f;
+  --texto-suave: #55625a;
+  --linha: #dde3d6;
+  --fonte-titulo: "Marcellus", "Cormorant Garamond", Georgia, serif;
+  --fonte-corpo: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --raio: 14px;
+  --largura: 1160px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: var(--fonte-corpo);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--fonte-titulo); font-weight: 400; text-wrap: balance; margin: 0; line-height: 1.15; }
+p { margin: 0; }
+:focus-visible { outline: 3px solid var(--ouro); outline-offset: 3px; border-radius: 6px; }
+
+.wrap { width: 100%; max-width: var(--largura); margin: 0 auto; padding: 0 20px; }
+
+/* Botões */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 14px 26px; border-radius: 999px; border: 1.5px solid transparent;
+  font: 600 16px/1 var(--fonte-corpo); text-decoration: none; cursor: pointer;
+  transition: background .2s, color .2s, border-color .2s, transform .2s;
+}
+.btn svg { width: 20px; height: 20px; flex: none; }
+.btn-zap { background: var(--ouro); color: #fff; }
+.btn-zap:hover { background: #8f6522; transform: translateY(-1px); }
+.btn-borda { border-color: rgba(255,255,255,.65); color: #fff; }
+.btn-borda:hover { background: rgba(255,255,255,.12); border-color: #fff; }
+.btn-verde { background: var(--verde); color: #fff; }
+.btn-verde:hover { background: var(--verde-escuro); }
+
+/* Cabeçalho */
+.topo {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(244,246,240,.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent; transition: border-color .2s, box-shadow .2s;
+}
+.topo.rolou { border-color: var(--linha); box-shadow: 0 6px 24px rgba(30,42,31,.06); }
+.topo .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 68px; }
+.marca { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.marca img { height: 42px; width: auto; }
+.marca-texto { display: flex; flex-direction: column; line-height: 1; }
+.marca-texto .g { font: 400 11px/1 var(--fonte-titulo); letter-spacing: .42em; color: var(--ouro); padding-left: 2px; }
+.marca-texto .t { font: 400 25px/1 var(--fonte-titulo); letter-spacing: .1em; color: var(--verde); margin-top: 3px; }
+.menu { display: flex; align-items: center; gap: 30px; }
+.menu a.link { text-decoration: none; font-weight: 500; font-size: 15px; color: var(--texto-suave); transition: color .2s; }
+.menu a.link:hover { color: var(--verde); }
+.menu .btn { padding: 11px 20px; font-size: 14px; }
+
+/* Abertura */
+.abertura {
+  position: relative; color: #fff;
+  background: var(--verde-escuro) url("img/hero.jpg") 62% 50% / cover no-repeat;
+}
+.abertura::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(19,34,21,.92) 0%, rgba(19,34,21,.72) 38%, rgba(19,34,21,.12) 78%, rgba(19,34,21,0) 100%);
+}
+.abertura .wrap { position: relative; padding-top: 56px; padding-bottom: 0; }
+.abertura .texto { max-width: 640px; display: flex; flex-direction: column; min-height: 600px; }
+.selo {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ouro-claro);
+}
+.selo::before { content: ""; width: 34px; height: 1.5px; background: var(--ouro-claro); }
+.abertura h1 { font-size: clamp(36px, 5.4vw, 62px); margin: 18px 0 20px; letter-spacing: .005em; }
+.abertura h1 em { font-style: normal; color: var(--ouro-claro); }
+.abertura p.lead { font-size: 19px; color: rgba(255,255,255,.88); max-width: 540px; }
+.abertura .acoes { display: flex; flex-wrap: wrap; gap: 14px; margin-top: auto; padding-top: 40px; padding-bottom: 36px; }
+.fatos {
+  position: relative; margin-top: 84px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+  border-top: 1px solid rgba(255,255,255,.22);
+  background: rgba(19,34,21,.55); backdrop-filter: blur(6px);
+}
+.fatos > div { padding: 22px 24px; border-left: 1px solid rgba(255,255,255,.16); }
+.fatos > div:first-child { border-left: 0; padding-left: 0; }
+.fatos dt { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ouro-claro); font-weight: 600; }
+.fatos dd { margin: 4px 0 0; font-size: 16px; }
+.fatos-wrap { position: relative; }
+.fatos-wrap::before { content: ""; position: absolute; inset: 0 -100vw; background: rgba(19,34,21,.55); backdrop-filter: blur(6px); }
+.fatos { background: none; backdrop-filter: none; margin-top: 0; }
+.abertura .fatos-wrap { margin-top: 0; }
+
+/* Seções */
+section { position: relative; }
+.bloco { padding: 96px 0; }
+.cabeca { max-width: 640px; margin-bottom: 52px; }
+.rotulo { font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--ouro); }
+.cabeca h2 { font-size: clamp(30px, 4vw, 44px); margin-top: 12px; color: var(--verde); }
+.cabeca p { margin-top: 16px; color: var(--texto-suave); }
+canvas.curvas { position: absolute; pointer-events: none; opacity: .55; }
+
+/* Serviços */
+.servicos { overflow: hidden; }
+.servicos canvas.curvas { right: -140px; top: -80px; width: 640px; height: 640px; }
+.grade { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.cartao {
+  background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio);
+  padding: 30px 28px 32px; transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+.cartao:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(30,42,31,.09); border-color: var(--ouro-claro); }
+.icone { width: 52px; height: 52px; border-radius: 50%; background: var(--verde); display: grid; place-items: center; margin-bottom: 22px; }
+.icone svg { width: 26px; height: 26px; stroke: var(--areia); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.cartao h3 { font-size: 22px; color: var(--verde); margin-bottom: 10px; }
+.cartao p { color: var(--texto-suave); font-size: 16px; }
+
+/* Tecnologia */
+.tecnologia { background: var(--verde); color: #fff; }
+.tecnologia .miolo { display: grid; grid-template-columns: 5fr 6fr; gap: 64px; align-items: center; }
+.tecnologia .foto { border-radius: var(--raio); overflow: hidden; aspect-ratio: 3 / 4; max-height: 620px; box-shadow: 0 30px 60px rgba(0,0,0,.28); }
+.tecnologia .foto img { width: 100%; height: 100%; object-fit: cover; }
+.tecnologia .rotulo { color: var(--ouro-claro); }
+.tecnologia h2 { font-size: clamp(30px, 4vw, 44px); margin: 12px 0 18px; }
+.tecnologia p.intro { color: rgba(255,255,255,.82); max-width: 520px; }
+.recursos { list-style: none; padding: 0; margin: 32px 0 0; display: grid; gap: 0; }
+.recursos li { display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 18px 0; border-top: 1px solid rgba(255,255,255,.18); }
+.recursos li:last-child { border-bottom: 1px solid rgba(255,255,255,.18); }
+.recursos strong { font-family: var(--fonte-titulo); font-weight: 400; font-size: 19px; color: var(--ouro-claro); }
+.recursos span { color: rgba(255,255,255,.86); font-size: 16px; }
+
+/* Etapas */
+.etapas { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; counter-reset: passo; }
+.etapas li { padding: 0 28px 0 0; position: relative; }
+.etapas li::before {
+  counter-increment: passo; content: counter(passo, decimal-leading-zero);
+  display: block; font: 400 46px/1 var(--fonte-titulo); color: var(--ouro-claro); margin-bottom: 18px;
+}
+.etapas li::after { content: ""; position: absolute; top: 24px; left: 66px; right: 14px; height: 1px; background: var(--linha); }
+.etapas li:last-child::after { display: none; }
+.etapas h3 { font-size: 21px; color: var(--verde); margin-bottom: 8px; }
+.etapas p { color: var(--texto-suave); font-size: 16px; }
+
+/* Galeria */
+.galeria { background: var(--areia); }
+.mosaico { columns: 3; column-gap: 18px; }
+.mosaico button {
+  display: block; width: 100%; margin: 0 0 18px; padding: 0; border: 0; background: none; cursor: zoom-in;
+  border-radius: 12px; overflow: hidden; break-inside: avoid; position: relative;
+}
+.mosaico img { width: 100%; height: auto; transition: transform .5s; }
+.mosaico button:hover img { transform: scale(1.04); }
+.mosaico button::after { content: ""; position: absolute; inset: 0; border-radius: 12px; box-shadow: inset 0 0 0 1px rgba(30,42,31,.12); pointer-events: none; }
+.nota-galeria { margin-top: 10px; color: var(--texto-suave); font-size: 15px; }
+
+/* Responsável */
+.responsavel .miolo { display: grid; grid-template-columns: 5fr 6fr; gap: 64px; align-items: center; }
+.responsavel .foto { border-radius: var(--raio); overflow: hidden; aspect-ratio: 3 / 4; max-height: 620px; }
+.responsavel .foto img { width: 100%; height: 100%; object-fit: cover; }
+.responsavel h2 { font-size: clamp(30px, 4vw, 42px); color: var(--verde); margin: 12px 0 18px; }
+.responsavel p { color: var(--texto-suave); max-width: 540px; }
+.credencial { margin-top: 28px; padding-left: 20px; border-left: 3px solid var(--ouro); }
+.credencial b { display: block; font-family: var(--fonte-titulo); font-weight: 400; font-size: 22px; color: var(--texto); }
+.credencial span { color: var(--texto-suave); font-size: 15px; }
+.lema { margin-top: 30px; font: italic 400 22px/1.4 var(--fonte-titulo); color: var(--ouro); }
+
+/* Contato */
+.contato { background: var(--verde-escuro); color: #fff; overflow: hidden; }
+.contato canvas.curvas { left: -200px; bottom: -260px; width: 720px; height: 720px; opacity: .35; }
+.contato .miolo { position: relative; display: grid; grid-template-columns: 6fr 5fr; gap: 64px; align-items: center; }
+.contato .rotulo { color: var(--ouro-claro); }
+.contato h2 { font-size: clamp(32px, 4.4vw, 50px); margin: 12px 0 18px; }
+.contato p.intro { color: rgba(255,255,255,.82); max-width: 500px; }
+.contato .acoes { margin-top: 30px; }
+.dados { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.dados li { display: grid; grid-template-columns: 110px 1fr; gap: 16px; padding: 18px 0; border-top: 1px solid rgba(255,255,255,.18); }
+.dados li:last-child { border-bottom: 1px solid rgba(255,255,255,.18); }
+.dados small { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ouro-claro); font-weight: 600; padding-top: 4px; }
+.dados a { text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.3); }
+.dados a:hover { border-color: var(--ouro-claro); }
+
+/* Rodapé */
+.rodape { background: #152617; color: rgba(255,255,255,.7); padding: 34px 0; font-size: 14px; }
+.rodape .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+.rodape .marca-texto .t { color: #fff; font-size: 20px; }
+.rodape .marca img { height: 34px; }
+
+/* WhatsApp flutuante */
+.zap-fixo {
+  position: fixed; right: 18px; bottom: 18px; z-index: 60;
+  width: 58px; height: 58px; border-radius: 50%; background: var(--ouro); color: #fff;
+  display: none; place-items: center; box-shadow: 0 10px 28px rgba(0,0,0,.28);
+}
+.zap-fixo svg { width: 28px; height: 28px; }
+
+/* Visualizador de fotos */
+.visor { position: fixed; inset: 0; z-index: 100; background: rgba(12,22,13,.94); display: none; align-items: center; justify-content: center; padding: 24px; }
+.visor.aberto { display: flex; }
+.visor img { max-height: 88vh; max-width: min(92vw, 1000px); object-fit: contain; border-radius: 8px; }
+.visor button { position: absolute; background: rgba(255,255,255,.12); border: 0; color: #fff; width: 48px; height: 48px; border-radius: 50%; font-size: 24px; cursor: pointer; }
+.visor button:hover { background: rgba(255,255,255,.24); }
+.visor .fechar { top: 18px; right: 18px; }
+.visor .ant { left: 18px; top: 50%; transform: translateY(-50%); }
+.visor .prox { right: 18px; top: 50%; transform: translateY(-50%); }
+
+
+/* Botão de vidro: quase invisível, ganha brilho ao passar o mouse */
+.btn-vidro { position: relative; color: #fff; border: 1px solid rgba(255,255,255,.34);
+  background: rgba(255,255,255,.04); backdrop-filter: blur(5px) saturate(1.25); -webkit-backdrop-filter: blur(5px) saturate(1.25);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22);
+  transition: background .3s, border-color .3s, box-shadow .3s, backdrop-filter .3s; }
+.btn-vidro:hover, .btn-vidro:focus-visible, .btn-vidro:active { background: rgba(255,255,255,.2); border-color: rgba(255,255,255,.6);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 8px 24px rgba(0,0,0,.18); backdrop-filter: blur(9px) saturate(1.4); -webkit-backdrop-filter: blur(9px) saturate(1.4); }
+
+/* Vantagens */
+.vantagens { background: var(--superficie); }
+.vgrade { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--linha); border-left: 1px solid var(--linha); }
+.vant { padding: 34px 30px 36px; border-right: 1px solid var(--linha); border-bottom: 1px solid var(--linha); }
+.vant .num { font: 400 15px/1 var(--fonte-titulo); letter-spacing: .14em; color: var(--ouro); }
+.vant h3 { font-size: 23px; color: var(--verde); margin: 14px 0 10px; }
+.vant p { color: var(--texto-suave); font-size: 16px; }
+.vant p + p { margin-top: 10px; }
+.destaque { margin-top: 44px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center;
+  background: var(--verde); color: #fff; border-radius: var(--raio); padding: 34px 38px; }
+.destaque h3 { font-size: 26px; margin-bottom: 8px; }
+.destaque p { color: rgba(255,255,255,.84); max-width: 640px; font-size: 16px; }
+.destaque .btn-zap { white-space: nowrap; }
+
+/* Documentos explicados */
+.docs details { border-top: 1px solid var(--linha); }
+.docs details:last-child { border-bottom: 1px solid var(--linha); }
+.docs summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; padding: 26px 4px; }
+.docs summary::-webkit-details-marker { display: none; }
+.docs summary h3 { font-size: clamp(21px, 2.6vw, 28px); color: var(--verde); }
+.docs summary small { display: block; margin-top: 6px; font: 500 15px/1.4 var(--fonte-corpo); color: var(--texto-suave); }
+.docs summary .mais { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--ouro-claro); display: grid; place-items: center; color: var(--ouro); font-size: 22px; line-height: 1; transition: transform .25s, background .25s, color .25s; }
+.docs details[open] summary .mais { transform: rotate(45deg); background: var(--ouro); color: #fff; }
+.docs summary:hover h3 { color: var(--verde-medio); }
+.docs .corpo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; padding: 4px 4px 34px; }
+.docs .corpo h4 { margin: 0 0 8px; font: 600 12px/1 var(--fonte-corpo); letter-spacing: .14em; text-transform: uppercase; color: var(--ouro); }
+.docs .corpo p { color: var(--texto); font-size: 16px; }
+.docs .corpo .ganho { background: var(--areia); border-radius: 12px; padding: 18px 20px; }
+.docs .corpo .ganho p { color: var(--verde-escuro); }
+.aviso { margin-top: 28px; font-size: 14.5px; color: var(--texto-suave); max-width: 760px; }
+
+/* Checklist */
+.diagnostico { background: var(--verde-escuro); color: #fff; overflow: hidden; }
+.diagnostico .miolo { display: grid; grid-template-columns: 5fr 6fr; gap: 64px; align-items: start; }
+.diagnostico .rotulo { color: var(--ouro-claro); }
+.diagnostico h2 { font-size: clamp(30px, 4vw, 44px); margin: 12px 0 16px; }
+.diagnostico p.intro { color: rgba(255,255,255,.82); max-width: 460px; }
+.itens { list-style: none; margin: 0; padding: 0; }
+.itens li { border-top: 1px solid rgba(255,255,255,.18); }
+.itens li:last-child { border-bottom: 1px solid rgba(255,255,255,.18); }
+.itens label { display: grid; grid-template-columns: 28px 1fr; gap: 16px; align-items: start; padding: 18px 0; cursor: pointer; }
+.itens input { appearance: none; -webkit-appearance: none; width: 26px; height: 26px; margin: 2px 0 0; border: 1.5px solid var(--ouro-claro); border-radius: 7px; background: transparent; display: grid; place-items: center; cursor: pointer; }
+.itens input:checked { background: var(--ouro); border-color: var(--ouro); }
+.itens input:checked::after { content: ""; width: 7px; height: 12px; border: solid #fff; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg) translate(-1px, -1px); }
+.itens strong { display: block; font-weight: 600; font-size: 17px; }
+.itens span { color: rgba(255,255,255,.72); font-size: 15px; }
+.resultado { margin-top: 28px; padding: 22px 24px; border-radius: var(--raio); background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.16); }
+.resultado p { font-size: 17px; }
+.resultado .acoes { margin-top: 16px; }
+
+/* Compromissos */
+.compromissos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.comp { padding-top: 22px; border-top: 2px solid var(--ouro); }
+.comp h3 { font-size: 21px; color: var(--verde); margin-bottom: 8px; }
+.comp p { color: var(--texto-suave); font-size: 16px; }
+
+@media (max-width: 960px) {
+  .grade { grid-template-columns: repeat(2, 1fr); }
+  .vgrade { grid-template-columns: repeat(2, 1fr); }
+  .destaque { grid-template-columns: 1fr; padding: 30px 28px; }
+  .docs .corpo { grid-template-columns: 1fr; gap: 18px; }
+  .diagnostico .miolo { grid-template-columns: 1fr; gap: 36px; }
+  .compromissos { grid-template-columns: repeat(2, 1fr); }
+  .tecnologia .miolo, .responsavel .miolo, .contato .miolo { grid-template-columns: 1fr; gap: 40px; }
+  .tecnologia .foto, .responsavel .foto { max-width: 420px; }
+  .etapas { grid-template-columns: repeat(2, 1fr); row-gap: 40px; }
+  .etapas li:nth-child(2)::after { display: none; }
+  .mosaico { columns: 2; }
+  .menu a.link { display: none; }
+}
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .bloco { padding: 68px 0; }
+  .cabeca { margin-bottom: 36px; }
+  .topo .wrap { height: 62px; }
+  .marca img { height: 36px; }
+  .marca-texto .t { font-size: 21px; }
+  .marca-texto .g { font-size: 9px; }
+  .menu .btn { display: none; }
+  .abertura::before { background: linear-gradient(180deg, rgba(19,34,21,.9) 0%, rgba(19,34,21,.72) 55%, rgba(19,34,21,.4) 100%); }
+  .abertura .wrap { padding-top: 40px; }
+  .abertura .texto { min-height: 560px; }
+  .abertura p.lead { font-size: 17px; }
+  .abertura .acoes .btn { width: 100%; }
+  .abertura .acoes { padding-bottom: 28px; }
+  .fatos { grid-template-columns: 1fr; }
+  .fatos > div { border-left: 0; padding: 14px 0; border-top: 1px solid rgba(255,255,255,.14); }
+  .fatos > div:first-child { border-top: 0; }
+  .grade { grid-template-columns: 1fr; }
+  .vgrade { grid-template-columns: 1fr; }
+  .vant { padding: 28px 22px 30px; }
+  .compromissos { grid-template-columns: 1fr; }
+  .docs summary { padding: 22px 0; }
+  .recursos li { grid-template-columns: 1fr; gap: 4px; }
+  .etapas { grid-template-columns: 1fr; }
+  .etapas li::after { display: none; }
+  .etapas li { padding-right: 0; }
+  .mosaico { column-gap: 12px; }
+  .mosaico button { margin-bottom: 12px; }
+  .dados li { grid-template-columns: 1fr; gap: 4px; }
+  .zap-fixo { display: grid; }
+  .rodape .wrap { flex-direction: column; align-items: flex-start; }
+  .visor .ant, .visor .prox { top: auto; bottom: 18px; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+
+/* provas e região */
+.provas { padding: 64px 0 24px; }
+.numeros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.numero { padding-top: 18px; border-top: 2px solid var(--ouro); }
+.numero b { display: block; font-family: 'Marcellus', serif; font-weight: 400; font-size: clamp(34px, 4vw, 46px); line-height: 1.05; color: var(--verde); }
+.numero span { display: block; margin-top: 8px; color: var(--texto-suave); font-size: 16px; }
+.regiao { margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px 48px; color: var(--texto-suave); }
+.regiao h3 { font-size: 21px; color: var(--verde); margin-bottom: 6px; }
+/* pré-orçamento */
+.pre { background: var(--areia); }
+.pre .miolo { display: grid; grid-template-columns: 5fr 6fr; gap: 56px; align-items: start; }
+.pre h2 { font-size: clamp(30px, 4vw, 44px); margin: 12px 0 16px; color: var(--verde); }
+.pre p.intro { color: var(--texto-suave); max-width: 460px; }
+.pre .nota { margin-top: 18px; font-size: 15px; color: var(--texto-suave); }
+.pre-form { background: #fff; border: 1px solid var(--linha); border-radius: 14px; padding: 28px; display: grid; gap: 22px; }
+.pre-form fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.pre-form legend, .pre-form label.rot { font-weight: 600; color: var(--verde); font-size: 15px; margin-bottom: 10px; display: block; padding: 0; }
+.opcoes { display: flex; flex-wrap: wrap; gap: 8px; }
+.opcoes label { cursor: pointer; }
+.opcoes input { position: absolute; opacity: 0; pointer-events: none; }
+.opcoes span { display: inline-block; padding: 9px 14px; border: 1.5px solid var(--linha); border-radius: 999px; font-size: 15px; color: var(--texto); background: #fff; transition: .15s; }
+.opcoes input:checked + span { background: var(--verde); border-color: var(--verde); color: #fff; }
+.opcoes input:focus-visible + span { outline: 2px solid var(--ouro); outline-offset: 2px; }
+.pre-form .dupla { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; }
+.pre-form input[type=text], .pre-form select { width: 100%; font: inherit; font-size: 16px; padding: 11px 13px; border: 1.5px solid var(--linha); border-radius: 10px; background: #fff; color: var(--texto); }
+.pre-form .acoes { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.pre-form .aviso { font-size: 14px; color: var(--texto-suave); }
+/* instagram */
+.insta { background: var(--fundo); padding: 72px 0; }
+.insta .caixa { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; border: 1px solid var(--linha); background: #fff; border-radius: 14px; padding: 36px 40px; }
+.insta h2 { font-size: clamp(26px, 3.4vw, 36px); color: var(--verde); margin: 10px 0 10px; }
+.insta p { color: var(--texto-suave); max-width: 600px; }
+.btn-insta { background: var(--verde); color: #fff; white-space: nowrap; }
+.btn-insta:hover { background: var(--verde-escuro); transform: translateY(-1px); }
+.btn-insta svg { width: 20px; height: 20px; }
+.rodape a.ig { color: var(--ouro-claro); }
+@media (max-width: 960px) {
+  .numeros { grid-template-columns: repeat(2, 1fr); }
+  .pre .miolo { grid-template-columns: 1fr; gap: 32px; }
+  .insta .caixa { grid-template-columns: 1fr; padding: 28px; }
+}
+@media (max-width: 640px) {
+  .provas { padding: 48px 0 8px; }
+  .regiao { grid-template-columns: 1fr; }
+  .pre-form { padding: 20px; }
+  .pre-form .dupla { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="topo" id="topo">
+  <div class="wrap">
+    <a class="marca" href="#inicio" aria-label="Grupo Terra, início">
+      <img src="img/emblema.png" alt="" width="49" height="42">
+      <span class="marca-texto"><span class="g">GRUPO</span><span class="t">TERRA</span></span>
+    </a>
+    <nav class="menu" aria-label="Principal">
+      <a class="link" href="#por-que">Por que regularizar</a>
+      <a class="link" href="#servicos">Serviços</a>
+      <a class="link" href="#como-trabalhamos">Como trabalhamos</a>
+      <a class="link" href="#trabalhos">Trabalhos</a>
+      <a class="link" href="#instagram">Instagram</a>
+      <a class="link" href="#contato">Contato</a>
+      <a class="btn btn-zap" href="https://wa.me/5581991885622?text=Ol%C3%A1%2C%20vim%20pelo%20site%20do%20Grupo%20Terra%20e%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" rel="noopener">Pedir orçamento</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+
+  <section class="abertura">
+    <div class="wrap">
+      <div class="texto">
+        <span class="selo">Topografia e regularização fundiária</span>
+        <h1>Sua terra medida com precisão e <em>regularizada com segurança.</em></h1>
+        <p class="lead">Levantamento de campo com GNSS e drone, peças técnicas e documentação rural para quem vive, trabalha e investe no campo em Pernambuco e na Paraíba.</p>
+        <div class="acoes">
+          <a class="btn btn-vidro" href="https://wa.me/5581991885622?text=Ol%C3%A1%2C%20vim%20pelo%20site%20do%20Grupo%20Terra%20e%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.7a11.9 11.9 0 0 0 5.7 1.5c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.4zM12 21.8c-1.8 0-3.6-.5-5.100-1.400l-.4-.2-3.700 1 1-3.600-.2-.4a9.900 9.900 0 0 1-1.500-5.300C2.100 6.400 6.600 2 12 2c2.600 0 5.100 1 7 2.900a9.800 9.800 0 0 1 2.900 7c0 5.400-4.400 9.900-9.900 9.900zm5.400-7.400c-.3-.1-1.800-.9-2-1-.3-.1-.5-.1-.7.1l-.9 1.100c-.2.2-.3.2-.6.1-1.700-.8-2.800-1.500-3.900-3.400-.3-.5.3-.5.900-1.600.1-.2.1-.4 0-.5l-.9-2.100c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.300-1 1-1 2.500s1.100 2.900 1.200 3.100c.2.200 2.100 3.300 5.200 4.600 1.900.8 2.700.9 3.600.7.600-.1 1.800-.7 2-1.400.3-.7.3-1.300.2-1.400-.1-.2-.3-.2-.6-.4z"/></svg>
+            Falar no WhatsApp
+          </a>
+          <a class="btn btn-vidro claro" href="#servicos">Conheça os serviços</a>
+        </div>
+      </div>
+    </div>
+    <div class="fatos-wrap">
+      <div class="wrap">
+        <dl class="fatos">
+          <div><dt>Responsável técnico</dt><dd>Técnico em Agrimensura, CRT-03</dd></div>
+          <div><dt>Equipamentos</dt><dd>Receptores GNSS e drone</dd></div>
+          <div><dt>Atendimento</dt><dd>Pernambuco e Paraíba</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="provas" aria-label="Grupo Terra em números">
+    <div class="wrap">
+      <div class="numeros">
+        <div class="numero"><b>+300</b><span>serviços realizados em Pernambuco e na Paraíba</span></div>
+        <div class="numero"><b>GNSS</b><span>e drone: equipamento moderno em campo e no processamento</span></div>
+        <div class="numero"><b>CRT-03</b><span>responsável técnico registrado, que vai a campo e assina</span></div>
+        <div class="numero"><b>2 horas</b><span>para responder o seu contato, em horário comercial</span></div>
+      </div>
+      <div class="regiao">
+        <div><h3>Onde atendemos</h3><p>Nossa base é o Agreste de Pernambuco, e também trabalhamos na Paraíba e em outras regiões. Fora do Agreste, combinamos com você uma taxa de deslocamento, sempre antes de fechar o serviço.</p></div>
+        <div><h3>Apoio jurídico</h3><p>Contamos com acompanhamento jurídico para qualquer demanda ligada à topografia: usucapião, partilha, retificação e o que mais a regularização do seu imóvel exigir.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloco vantagens" id="por-que">
+    <div class="wrap">
+      <div class="cabeca">
+        <span class="rotulo">Por que regularizar</span>
+        <h2>Terra em dia é terra que trabalha a seu favor</h2>
+        <p>Regularizar não é só atender a uma exigência. É transformar a terra em patrimônio que o banco reconhece, o cartório registra e a família consegue herdar sem dor de cabeça.</p>
+      </div>
+      <div class="vgrade">
+        <article class="vant"><span class="num">01</span><h3>Crédito mais perto</h3>
+          <p>Para financiar a safra, comprar máquina ou investir na propriedade, o banco olha os documentos da terra. O recibo do CAR é exigido para o crédito rural, e o CCIR e o ITR em dia fazem parte da análise.</p>
+          <p>Quem chega com tudo organizado ganha tempo e evita proposta travada na agência.</p></article>
+        <article class="vant"><span class="num">02</span><h3>Venda, doação e herança sem trava</h3>
+          <p>Sem o CCIR, o cartório não pode registrar venda, hipoteca, desmembramento nem partilha. E o georreferenciamento passa a ser condição para esses atos em qualquer imóvel rural.</p>
+          <p>Com a documentação pronta, você escolhe a hora de negociar, em vez de correr atrás de papel quando o comprador aparece.</p></article>
+        <article class="vant"><span class="num">03</span><h3>Divisas que ninguém contesta</h3>
+          <p>No lugar de cerca velha, pé de pau e “até onde me lembro”, o limite passa a ser definido por coordenadas oficiais. O sistema do Incra confere que a sua área não se sobrepõe à do vizinho.</p>
+          <p>Menos discussão, menos advogado, mais sossego para produzir.</p></article>
+        <article class="vant"><span class="num">04</span><h3>Patrimônio que vale mais</h3>
+          <p>Imóvel com matrícula limpa, área medida e cadastros em dia é mais fácil de vender, de dar em garantia e de avaliar. Para o banco, vale a área que está segura no papel, e não só a que está no campo.</p></article>
+        <article class="vant"><span class="num">05</span><h3>Sem multa e sem pendência</h3>
+          <p>A declaração do ITR é anual e a multa por atraso é de 1% ao mês sobre o imposto, com mínimo de R$ 50. A pendência ainda pode impedir a certidão negativa do imóvel, que é pedida na venda e no crédito.</p>
+          <p>Cuidamos para você nunca ser pego de surpresa.</p></article>
+        <article class="vant"><span class="num">06</span><h3>Quem se antecipa leva vantagem</h3>
+          <p>Os prazos do georreferenciamento já mudaram mais de uma vez e há decisões da Justiça em discussão. Quem deixa para a última hora enfrenta fila de profissionais e pressa.</p>
+          <p>Quem faz agora escolhe o momento, compara e decide com calma.</p></article>
+      </div>
+      <div class="destaque">
+        <div>
+          <h3>Descubra o que falta no seu imóvel</h3>
+          <p>Responda a um checklist rápido de cinco itens. Em menos de um minuto você vê o que está em dia e o que merece atenção.</p>
+        </div>
+        <a class="btn btn-zap" href="#diagnostico">Fazer o checklist</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloco docs" id="documentos">
+    <div class="wrap">
+      <div class="cabeca">
+        <span class="rotulo">Entenda os documentos</span>
+        <h2>O que é cada um, para que serve e o que você ganha</h2>
+        <p>Muita gente ouve falar de CCIR, CAR, ITR e georreferenciamento sem saber ao certo o que cada um faz. Aqui está o essencial, em linguagem simples.</p>
+      </div>
+
+      <details open>
+        <summary><div><h3>Georreferenciamento e certificação</h3><small>A medição oficial dos limites da sua terra</small></div><span class="mais" aria-hidden="true">+</span></summary>
+        <div class="corpo">
+          <div><h4>O que é</h4><p>Um levantamento feito no campo, com receptores de satélite, que descreve o imóvel por coordenadas e gera planta e memorial descritivo. É feito por profissional habilitado. A certificação no Incra confirma que a área não se sobrepõe a outra já cadastrada.</p></div>
+          <div><h4>Para que serve</h4><p>É a base do registro. A Lei 10.267/2001 exige o georreferenciamento para desmembrar, parcelar, remembrar e transferir imóvel rural. Também alimenta o cálculo correto da área no ITR e no CCIR.</p></div>
+          <div class="ganho"><h4>O que você ganha</h4><p>Limites sem dúvida, imóvel pronto para vender, partilhar ou dar em garantia e uma área que o banco e o cartório reconhecem. Desde 2019, nesses atos não é mais preciso colher a assinatura dos vizinhos: basta a declaração do proprietário.</p></div>
+        </div>
+      </details>
+
+      <details>
+        <summary><div><h3>CCIR</h3><small>Certificado de Cadastro de Imóvel Rural, emitido pelo Incra</small></div><span class="mais" aria-hidden="true">+</span></summary>
+        <div class="corpo">
+          <div><h4>O que é</h4><p>O documento que prova que o imóvel está inscrito no Sistema Nacional de Cadastro Rural. Ele não é a escritura: a escritura mostra de quem é a terra, e o CCIR mostra que ela está cadastrada. É renovado todo ano, com pagamento de taxa.</p></div>
+          <div><h4>Para que serve</h4><p>É indispensável para desmembrar, arrendar, hipotecar, vender ou prometer em venda o imóvel, e também para a partilha em casos de herança. Os bancos pedem o CCIR atualizado para liberar crédito rural.</p></div>
+          <div class="ganho"><h4>O que você ganha</h4><p>Liberdade para negociar e acesso a crédito sem a surpresa de um cadastro bloqueado. Quando o Incra aponta pendência, regularizamos os dados do imóvel para o certificado voltar a ser emitido.</p></div>
+        </div>
+      </details>
+
+      <details>
+        <summary><div><h3>ITR</h3><small>Imposto sobre a Propriedade Territorial Rural, da Receita Federal</small></div><span class="mais" aria-hidden="true">+</span></summary>
+        <div class="corpo">
+          <div><h4>O que é</h4><p>O imposto anual do imóvel rural. A declaração é entregue à Receita Federal até 30 de setembro, e o imóvel precisa ter o número cadastral na Receita. Há casos de imunidade e de isenção previstos em lei, principalmente em pequenas glebas, que analisamos caso a caso.</p></div>
+          <div><h4>Para que serve</h4><p>Mantém o imóvel regular perante a Receita e permite emitir a certidão negativa. Atraso gera multa de 1% ao mês sobre o imposto devido, com mínimo de R$ 50, e pode atrapalhar crédito e venda.</p></div>
+          <div class="ganho"><h4>O que você ganha</h4><p>Declaração feita certa, com a área e o uso da terra corretos, e a tranquilidade de ter a certidão em mãos quando o negócio ou o financiamento aparecer.</p></div>
+        </div>
+      </details>
+
+      <details>
+        <summary><div><h3>CAR</h3><small>Cadastro Ambiental Rural, previsto no Código Florestal</small></div><span class="mais" aria-hidden="true">+</span></summary>
+        <div class="corpo">
+          <div><h4>O que é</h4><p>Um registro eletrônico e público, criado pela Lei 12.651/2012. Nele o imóvel é desenhado no mapa, com as áreas de preservação permanente, a reserva legal e a vegetação nativa. É uma declaração feita pelo proprietário ou possuidor.</p></div>
+          <div><h4>Para que serve</h4><p>É a base da regularidade ambiental do imóvel. O Código Florestal e o Manual de Crédito Rural exigem o recibo do CAR para o crédito rural, e o número do CAR também é informado na declaração do ITR.</p></div>
+          <div class="ganho"><h4>O que você ganha</h4><p>Crédito sem barreira ambiental e um mapa fiel da propriedade, feito sobre medição real. Cadastro desenhado a olho costuma gerar sobreposição e pendência depois.</p></div>
+        </div>
+      </details>
+
+      <details>
+        <summary><div><h3>Posse, escritura e usucapião</h3><small>Quando a terra é sua, mas o papel ainda não diz isso</small></div><span class="mais" aria-hidden="true">+</span></summary>
+        <div class="corpo">
+          <div><h4>O que é</h4><p>Quem mora e trabalha em terra herdada ou comprada “de boca”, sem escritura ou matrícula, tem posse, e não propriedade formal. Muitas famílias vivem assim há gerações.</p></div>
+          <div><h4>Para que serve regularizar</h4><p>Sem o registro, fica difícil vender, financiar e passar o imóvel aos filhos, e crescem os conflitos com herdeiros e antigos donos. Dependendo do caso, o caminho é inventário, escritura ou usucapião. Em todos eles, a planta e o memorial georreferenciados são peças técnicas importantes.</p></div>
+          <div class="ganho"><h4>O que você ganha</h4><p>Segurança para investir, direito claro sobre a terra e herança organizada. Nós fazemos a parte técnica e orientamos o caminho, junto com o advogado ou o cartório do seu caso.</p></div>
+        </div>
+      </details>
+
+      <details>
+        <summary><div><h3>Curvas de nível</h3><small>O mapa do relevo, usado em obra, solo e água</small></div><span class="mais" aria-hidden="true">+</span></summary>
+        <div class="corpo">
+          <div><h4>O que é</h4><p>Linhas que ligam pontos de mesma altura no terreno. Elas saem de um levantamento planialtimétrico, que mede posição e altitude, e mostram onde o terreno sobe, desce e acumula água.</p></div>
+          <div><h4>Para que serve</h4><p>Não é exigência de cartório, é planejamento. Serve para locar obras, estradas, açudes e barragens, estudar drenagem, dividir lotes e marcar o terraceamento que segura a água e o solo da chuva, em terreno com declive a partir de 1%.</p></div>
+          <div class="ganho"><h4>O que você ganha</h4><p>Obra sem retrabalho e menos terra fértil e adubo escorrendo morro abaixo. A chuva passa a ser aproveitada, e não perdida. Em pastagem, produtores relatam que o pasto fica verde por mais tempo.</p></div>
+        </div>
+      </details>
+
+      <p class="aviso">As informações acima têm caráter geral e podem mudar com a legislação. Cada imóvel tem sua situação, e confirmamos as exigências do seu caso antes de qualquer serviço.</p>
+    </div>
+  </section>
+
+  <section class="bloco servicos" id="servicos">
+    <canvas class="curvas" aria-hidden="true" data-semente="3"></canvas>
+    <div class="wrap">
+      <div class="cabeca">
+        <span class="rotulo">Serviços</span>
+        <h2>Da medição no campo ao documento da propriedade</h2>
+        <p>Cada trabalho começa na terra e termina em papel regular, com planta, memorial e a documentação que o seu imóvel exige.</p>
+      </div>
+      <div class="grade">
+        <article class="cartao">
+          <div class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13l2 2 4-4"/></svg></div>
+          <h3>Regularização fundiária</h3>
+          <p>Segurança jurídica para a sua terra: levantamento, peças técnicas e apoio na documentação para regularizar o imóvel.</p>
+        </article>
+        <article class="cartao">
+          <div class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v7"/><path d="M8 21l4-11 4 11"/><path d="M9.500 17h5"/><circle cx="12" cy="3" r="1"/></svg></div>
+          <h3>Topografia e georreferenciamento</h3>
+          <p>Levantamento com receptores GNSS, planta e memorial descritivo com as coordenadas dos limites do imóvel.</p>
+        </article>
+        <article class="cartao">
+          <div class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+          <h3>ITR, CCIR e CAR</h3>
+          <p>Documentação rural em dia, com as declarações e cadastros do imóvel feitos sem pendência.</p>
+        </article>
+        <article class="cartao">
+          <div class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 15c3-6 6-8 9-8s6 2 9 8"/><path d="M6 17c2-3.500 4-5 6-5s4 1.500 6 5"/><path d="M9 19c1-1.500 2-2 3-2s2 .5 3 2"/></svg></div>
+          <h3>Curvas de nível e planejamento do terreno</h3>
+          <p>Mapa do relevo para planejar construções, estradas, açudes, plantios e a melhor forma de usar cada área.</p>
+        </article>
+        <article class="cartao">
+          <div class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="2.500"/><circle cx="18" cy="6" r="2.500"/><circle cx="6" cy="18" r="2.500"/><circle cx="18" cy="18" r="2.500"/><rect x="9.500" y="9.500" width="5" height="5" rx="1"/><path d="M8 8l2 2M16 8l-2 2M8 16l2-2M16 16l-2-2"/></svg></div>
+          <h3>Mapeamento com drone</h3>
+          <p>Imagens aéreas e levantamento de áreas extensas ou de difícil acesso, com rapidez e boa visão do conjunto.</p>
+        </article>
+        <article class="cartao">
+          <div class="icone"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h8v8H3zM13 4h8v5h-8zM13 11h8v9h-8zM3 14h8v6H3z"/></svg></div>
+          <h3>Parcelamento em lotes</h3>
+          <p>Estudo preliminar e plantas para dividir glebas em lotes, com leitura clara de áreas, acessos e aproveitamento.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloco tecnologia">
+    <div class="wrap miolo">
+      <div class="foto"><img src="img/coletora-campo.jpg" alt="Receptor GNSS no bastão e coletora de dados em campo, com a encosta ao fundo" width="975" height="1300" loading="lazy"></div>
+      <div>
+        <span class="rotulo">Tecnologia no campo</span>
+        <h2>Equipamento certo para cada tipo de terreno</h2>
+        <p class="intro">Do morro com mata fechada à roça plana, a escolha do método define a qualidade do resultado. Trabalhamos com equipamento moderno e processamos os dados em software de topografia.</p>
+        <ul class="recursos">
+          <li><strong>Receptores GNSS</strong><span>Base e rover para marcar com precisão os vértices e os limites do imóvel.</span></li>
+          <li><strong>Coletora de campo</strong><span>Registro dos pontos no próprio local, com conferência da área durante o levantamento.</span></li>
+          <li><strong>Drone</strong><span>Imagens aéreas para enxergar o conjunto e chegar onde o acesso a pé é difícil.</span></li>
+          <li><strong>Processamento</strong><span>Cálculo de áreas, desenho da planta e memorial descritivo prontos para o cartório e os órgãos.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloco" id="como-trabalhamos">
+    <div class="wrap">
+      <div class="cabeca">
+        <span class="rotulo">Como trabalhamos</span>
+        <h2>Um caminho simples, do primeiro contato à entrega</h2>
+      </div>
+      <ol class="etapas">
+        <li><h3>Conversa e orçamento</h3><p>Você conta o que precisa e quais documentos tem. Passamos o valor e o prazo antes de começar.</p></li>
+        <li><h3>Levantamento em campo</h3><p>Equipe vai até o imóvel, percorre os limites e coleta os pontos com GNSS e, quando indicado, com drone.</p></li>
+        <li><h3>Processamento e peças técnicas</h3><p>Os dados viram planta, memorial descritivo e os arquivos exigidos para cada finalidade.</p></li>
+        <li><h3>Entrega e regularização</h3><p>Você recebe a documentação organizada e acompanhamento nos próximos passos da regularização.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="bloco" id="compromissos">
+    <div class="wrap">
+      <div class="cabeca">
+        <span class="rotulo">Nosso compromisso</span>
+        <h2>Serviço bem feito, com responsabilidade em cada etapa</h2>
+        <p>Documento de terra tem consequência por muitos anos. Por isso, o que prometemos é o que entregamos.</p>
+      </div>
+      <div class="compromissos">
+        <div class="comp"><h3>Preço e prazo claros</h3><p>Você sabe o que será feito, quanto custa e em quanto tempo, antes de dar o primeiro passo.</p></div>
+        <div class="comp"><h3>Responsável técnico</h3><p>O trabalho é conduzido e assinado por técnico em agrimensura registrado, com responsabilidade técnica sobre cada peça.</p></div>
+        <div class="comp"><h3>Equipamento adequado</h3><p>Receptores GNSS e drone para medir com a precisão que o seu documento exige, e não “por estimativa”.</p></div>
+        <div class="comp"><h3>Entrega explicada</h3><p>Você recebe os documentos organizados e uma explicação simples do que cada um significa e do próximo passo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloco galeria" id="trabalhos">
+    <div class="wrap">
+      <div class="cabeca">
+        <span class="rotulo">Trabalhos</span>
+        <h2>Nosso dia a dia no campo</h2>
+        <p>Imagens de levantamentos feitos em campo. Acompanhe mais no nosso Instagram, <a href="https://www.instagram.com/grupo_terra00/" target="_blank" rel="noopener">@grupo_terra00</a>.</p>
+      </div>
+      <div class="mosaico" id="mosaico">
+        <button type="button" data-i="0"><img src="img/por-do-sol.jpg" alt="Receptor GNSS e coletora de dados ao pôr do sol" width="731" height="1300" loading="lazy"></button>
+        <button type="button" data-i="1"><img src="img/base-rover-roca.jpg" alt="Base e rover GNSS em área de roça, com céu azul" width="731" height="1300" loading="lazy"></button>
+        <button type="button" data-i="2"><img src="img/coletora-campo.jpg" alt="Coletora de dados em campo, com a encosta ao fundo" width="975" height="1300" loading="lazy"></button>
+        <button type="button" data-i="3"><img src="img/gnss-paisagem.jpg" alt="Receptor GNSS com a paisagem do agreste ao fundo" width="731" height="1300" loading="lazy"></button>
+        <button type="button" data-i="4"><img src="img/processamento.jpg" alt="Tripé e notebook de campo sobre afloramento de pedra" width="731" height="1300" loading="lazy"></button>
+        <button type="button" data-i="5"><img src="img/tripe-cerca.jpg" alt="Base GNSS no tripé junto à cerca, com morro ao fundo" width="731" height="1300" loading="lazy"></button>
+        <button type="button" data-i="6"><img src="img/vale-acude.jpg" alt="Vista do vale com açude, vista do alto" width="731" height="1300" loading="lazy"></button>
+        <button type="button" data-i="7"><img src="img/coletora-detalhe.jpg" alt="Coletora de dados com o mapa do levantamento na tela" width="975" height="1300" loading="lazy"></button>
+        <button type="button" data-i="8"><img src="img/drone-controle.jpg" alt="Controle do drone com a imagem aérea na tela" width="731" height="1300" loading="lazy"></button>
+        <button type="button" data-i="9"><img src="img/vale-azul.jpg" alt="Vista do vale com céu azul e a cidade ao longe" width="731" height="1300" loading="lazy"></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloco pre" id="pre-orcamento">
+    <div class="wrap miolo">
+      <div>
+        <span class="rotulo">Orçamento sem enrolação</span>
+        <h2>Monte seu pedido de orçamento em 1 minuto</h2>
+        <p class="intro">Escolha o serviço e o tamanho aproximado da área. Ao clicar, o WhatsApp abre com tudo organizado e já respondemos com o valor e o prazo do seu caso.</p>
+        <p class="nota">Não precisa saber a medida exata: uma ideia do tamanho já nos permite começar.</p>
+      </div>
+      <form class="pre-form" id="pre-form" onsubmit="return false">
+        <fieldset>
+          <legend>O que você precisa?</legend>
+          <div class="opcoes" id="pre-servicos">
+            <label><input type="checkbox" value="Regularização fundiária"><span>Regularização fundiária</span></label>
+            <label><input type="checkbox" value="Topografia e georreferenciamento"><span>Topografia e georreferenciamento</span></label>
+            <label><input type="checkbox" value="ITR, CCIR e CAR"><span>ITR, CCIR e CAR</span></label>
+            <label><input type="checkbox" value="Curvas de nível e planejamento do terreno"><span>Curvas de nível</span></label>
+            <label><input type="checkbox" value="Mapeamento com drone"><span>Mapeamento com drone</span></label>
+            <label><input type="checkbox" value="Parcelamento em lotes"><span>Parcelamento em lotes</span></label>
+            <label><input type="checkbox" value="Ainda não sei, preciso de orientação"><span>Ainda não sei</span></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Tamanho aproximado da área</legend>
+          <div class="opcoes" id="pre-area">
+            <label><input type="radio" name="area" value="até 5 hectares"><span>Até 5 ha</span></label>
+            <label><input type="radio" name="area" value="de 5 a 20 hectares"><span>5 a 20 ha</span></label>
+            <label><input type="radio" name="area" value="de 20 a 50 hectares"><span>20 a 50 ha</span></label>
+            <label><input type="radio" name="area" value="de 50 a 100 hectares"><span>50 a 100 ha</span></label>
+            <label><input type="radio" name="area" value="acima de 100 hectares"><span>Acima de 100 ha</span></label>
+            <label><input type="radio" name="area" value="não sei informar"><span>Não sei</span></label>
+          </div>
+        </fieldset>
+        <div class="dupla">
+          <div><label class="rot" for="pre-local">Município</label><input type="text" id="pre-local" placeholder="Ex.: Bezerros" autocomplete="address-level2"></div>
+          <div><label class="rot" for="pre-uf">Estado</label><select id="pre-uf"><option>PE</option><option>PB</option><option value="outro">Outro</option></select></div>
+        </div>
+        <div>
+          <label class="rot" for="pre-sit">Situação do imóvel</label>
+          <select id="pre-sit">
+            <option value="">Selecione (opcional)</option>
+            <option>Tem matrícula registrada em cartório</option>
+            <option>Tem só escritura ou contrato de compra</option>
+            <option>Tem só a posse, sem documento</option>
+            <option>É herança ou partilha</option>
+            <option>Não sei informar</option>
+          </select>
+        </div>
+        <div class="acoes">
+          <a class="btn btn-zap" id="pre-link" href="https://wa.me/5581991885622" target="_blank" rel="noopener">Enviar pedido pelo WhatsApp</a>
+        </div>
+        <p class="aviso">Você não paga nada para pedir. O valor é informado por nós na conversa.</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="bloco diagnostico" id="diagnostico">
+    <div class="wrap miolo">
+      <div>
+        <span class="rotulo">Checklist rápido</span>
+        <h2>Seu imóvel está em dia?</h2>
+        <p class="intro">Marque o que você já tem. Sem compromisso e sem cadastro: o resultado aparece na hora e, se quiser, você manda direto para nós.</p>
+      </div>
+      <div>
+        <ul class="itens" id="itens">
+          <li><label><input type="checkbox" value="matrícula do imóvel registrada em cartório"><span><strong>Matrícula registrada em cartório</strong><span>A escritura está registrada em seu nome.</span></span></label></li>
+          <li><label><input type="checkbox" value="CCIR atualizado e pago"><span><strong>CCIR atualizado e pago</strong><span>O certificado do Incra do ano está emitido como quitado.</span></span></label></li>
+          <li><label><input type="checkbox" value="ITR declarado em dia"><span><strong>ITR declarado em dia</strong><span>As declarações anuais foram entregues à Receita.</span></span></label></li>
+          <li><label><input type="checkbox" value="CAR feito e conferido"><span><strong>CAR feito e conferido</strong><span>O recibo existe e o desenho condiz com o imóvel real.</span></span></label></li>
+          <li><label><input type="checkbox" value="limites georreferenciados"><span><strong>Limites georreferenciados</strong><span>O imóvel foi medido com GNSS, com planta e memorial.</span></span></label></li>
+        </ul>
+        <div class="resultado" id="resultado" aria-live="polite">
+          <p id="res-texto">Marque os itens acima para ver o resultado.</p>
+          <div class="acoes"><a class="btn btn-zap" id="res-link" href="https://wa.me/5581991885622?text=Ol%C3%A1%2C%20vim%20pelo%20site%20do%20Grupo%20Terra%20e%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" rel="noopener">Falar com o Grupo Terra</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="insta" id="instagram">
+    <div class="wrap">
+      <div class="caixa">
+        <div>
+          <span class="rotulo">Instagram</span>
+          <h2>Veja nossos levantamentos em campo, de perto</h2>
+          <p>Publicamos o dia a dia do trabalho, explicações sobre CAR, CCIR, ITR e georreferenciamento e novidades da regularização rural. Siga @grupo_terra00 e tire suas dúvidas por lá.</p>
+        </div>
+        <a class="btn btn-insta" href="https://www.instagram.com/grupo_terra00/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> Seguir @grupo_terra00</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloco responsavel">
+    <div class="wrap miolo">
+      <div class="foto"><img src="img/tripe-por-do-sol.jpg" alt="Base GNSS no tripé com o sol se pondo atrás das pedras" width="975" height="1300" loading="lazy"></div>
+      <div>
+        <span class="rotulo">Quem está por trás</span>
+        <h2>Atendimento direto com o responsável técnico</h2>
+        <p>Você fala com quem vai a campo e assina o trabalho. Isso dá clareza no orçamento, no prazo e em cada etapa, sem intermediários.</p>
+        <div class="credencial">
+          <b>Josias Alexandre Nogueira da Silva</b>
+          <span>Técnico em Agrimensura · CRT-03</span>
+        </div>
+        <p class="lema">Sua terra. Seu patrimônio. Nosso compromisso.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloco contato" id="contato">
+    <canvas class="curvas" aria-hidden="true" data-semente="8"></canvas>
+    <div class="wrap miolo">
+      <div>
+        <span class="rotulo">Contato</span>
+        <h2>Vamos conversar sobre a sua terra</h2>
+        <p class="intro">Conte o que você precisa e receba uma orientação inicial e o orçamento, com resposta em até 2 horas em horário comercial. O atendimento é pelo WhatsApp, e o levantamento é agendado no imóvel.</p>
+        <div class="acoes">
+          <a class="btn btn-zap" href="https://wa.me/5581991885622?text=Ol%C3%A1%2C%20vim%20pelo%20site%20do%20Grupo%20Terra%20e%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.7a11.9 11.9 0 0 0 5.7 1.5c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.4zM12 21.8c-1.8 0-3.6-.5-5.100-1.400l-.4-.2-3.700 1 1-3.600-.2-.4a9.900 9.900 0 0 1-1.500-5.300C2.100 6.400 6.600 2 12 2c2.600 0 5.100 1 7 2.900a9.800 9.800 0 0 1 2.900 7c0 5.400-4.400 9.900-9.900 9.900zm5.400-7.400c-.3-.1-1.800-.9-2-1-.3-.1-.5-.1-.7.1l-.9 1.100c-.2.2-.3.2-.6.1-1.700-.8-2.800-1.500-3.900-3.400-.3-.5.3-.5.900-1.600.1-.2.1-.4 0-.5l-.9-2.100c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.300-1 1-1 2.500s1.100 2.900 1.200 3.100c.2.200 2.100 3.300 5.200 4.600 1.900.8 2.700.9 3.600.7.600-.1 1.800-.7 2-1.400.3-.7.3-1.300.2-1.400-.1-.2-.3-.2-.6-.4z"/></svg>
+            Chamar no WhatsApp
+          </a>
+        </div>
+      </div>
+      <ul class="dados">
+        <li><small>WhatsApp</small><span><a href="https://wa.me/5581991885622" target="_blank" rel="noopener">(81) 99188-5622</a></span></li>
+        <li><small>E-mail</small><span><a href="mailto:GrupoTerraj@gmail.com">GrupoTerraj@gmail.com</a></span></li>
+        <li><small>Instagram</small><span><a href="https://www.instagram.com/grupo_terra00/" target="_blank" rel="noopener">@grupo_terra00</a></span></li>
+        <li><small>Endereço</small><span>Rua Dom Pedro II, 245, Centro<br>Bezerros, Pernambuco<br><a href="https://www.google.com/maps/search/?api=1&amp;query=Rua+Dom+Pedro+II+245+Centro+Bezerros+PE" target="_blank" rel="noopener">Ver no mapa</a></span></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="rodape">
+  <div class="wrap">
+    <a class="marca" href="#inicio" aria-label="Grupo Terra, início">
+      <img src="img/emblema.png" alt="" width="40" height="34">
+      <span class="marca-texto"><span class="g">GRUPO</span><span class="t">TERRA</span></span>
+    </a>
+    <span>Desenvolvimento · Produção · Soluções</span>
+    <a class="ig" href="https://www.instagram.com/grupo_terra00/" target="_blank" rel="noopener">@grupo_terra00</a>
+    <span>© 2026 Grupo Terra. Bezerros, Pernambuco.</span>
+  </div>
+</footer>
+
+<a class="zap-fixo" href="https://wa.me/5581991885622?text=Ol%C3%A1%2C%20vim%20pelo%20site%20do%20Grupo%20Terra%20e%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.7a11.9 11.9 0 0 0 5.7 1.5c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.4zM12 21.8c-1.8 0-3.6-.5-5.100-1.400l-.4-.2-3.700 1 1-3.600-.2-.4a9.900 9.900 0 0 1-1.500-5.300C2.100 6.400 6.600 2 12 2c2.600 0 5.100 1 7 2.900a9.800 9.800 0 0 1 2.900 7c0 5.400-4.400 9.900-9.900 9.900zm5.400-7.400c-.3-.1-1.800-.9-2-1-.3-.1-.5-.1-.7.1l-.9 1.100c-.2.2-.3.2-.6.1-1.700-.8-2.800-1.500-3.900-3.400-.3-.5.3-.5.900-1.600.1-.2.1-.4 0-.5l-.9-2.100c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.300-1 1-1 2.500s1.100 2.900 1.200 3.100c.2.200 2.100 3.300 5.200 4.600 1.900.8 2.700.9 3.600.7.600-.1 1.800-.7 2-1.400.3-.7.3-1.300.2-1.400-.1-.2-.3-.2-.6-.4z"/></svg>
+</a>
+
+<div class="visor" id="visor" role="dialog" aria-modal="true" aria-label="Foto ampliada">
+  <button type="button" class="fechar" id="v-fechar" aria-label="Fechar">×</button>
+  <button type="button" class="ant" id="v-ant" aria-label="Foto anterior">‹</button>
+  <img id="v-img" alt="">
+  <button type="button" class="prox" id="v-prox" aria-label="Próxima foto">›</button>
+</div>
+
+<script>
+(function () {
+
+
+  // Checklist: mensagem e link do WhatsApp conforme os itens marcados
+  (function () {
+    var caixas = Array.prototype.slice.call(document.querySelectorAll('#itens input'));
+    var texto = document.getElementById('res-texto'), link = document.getElementById('res-link');
+    var base = 'https://wa.me/5581991885622?text=';
+    function atualizar() {
+      var feitos = caixas.filter(function (c) { return c.checked; });
+      var faltam = caixas.filter(function (c) { return !c.checked; });
+      var msg;
+      if (feitos.length === 0) {
+        texto.textContent = 'Marque os itens acima para ver o resultado.';
+        msg = 'Olá, vim pelo site do Grupo Terra e gostaria de saber o que falta para regularizar meu imóvel rural.';
+      } else if (faltam.length === 0) {
+        texto.textContent = 'Muito bem: tudo em dia. Vale uma conferência para garantir que os dados estão corretos e atualizados.';
+        msg = 'Olá, vim pelo site do Grupo Terra. Meu imóvel parece estar com os documentos em dia e gostaria de uma conferência.';
+      } else {
+        texto.textContent = 'Você tem ' + feitos.length + ' de 5 itens em dia. Faltam ' + faltam.length + ', e nós podemos cuidar deles com você.';
+        msg = 'Olá, vim pelo site do Grupo Terra. No checklist, ainda falta: ' + faltam.map(function (c) { return c.value; }).join('; ') + '. Pode me orientar?';
+      }
+      link.href = base + encodeURIComponent(msg);
+    }
+    caixas.forEach(function (c) { c.addEventListener('change', atualizar); });
+    atualizar();
+  })();
+
+  // Pré-orçamento: monta a mensagem do WhatsApp (sem valores)
+  (function () {
+    var form = document.getElementById('pre-form'); if (!form) return;
+    var link = document.getElementById('pre-link');
+    var base = 'https://wa.me/5581991885622?text=';
+    function atualizar() {
+      var serv = Array.prototype.slice.call(document.querySelectorAll('#pre-servicos input:checked')).map(function (c) { return c.value; });
+      var areaEl = document.querySelector('#pre-area input:checked');
+      var local = document.getElementById('pre-local').value.trim();
+      var ufEl = document.getElementById('pre-uf');
+      var uf = ufEl.value === 'outro' ? 'outro estado' : ufEl.value;
+      var sit = document.getElementById('pre-sit').value;
+      var l = ['Olá, vim pelo site do Grupo Terra e gostaria de um orçamento.', ''];
+      l.push('Serviço: ' + (serv.length ? serv.join('; ') : 'a definir, preciso de orientação'));
+      l.push('Área aproximada: ' + (areaEl ? areaEl.value : 'não informada'));
+      l.push('Local: ' + (local ? local + '/' : '') + uf);
+      if (sit) l.push('Situação do imóvel: ' + sit);
+      l.push('', 'Aguardo o valor e o prazo. Obrigado!');
+      link.href = base + encodeURIComponent(l.join('\n'));
+    }
+    form.addEventListener('change', atualizar);
+    form.addEventListener('input', atualizar);
+    atualizar();
+  })();
+
+  // Cabeçalho ganha borda ao rolar
+  var topo = document.getElementById('topo');
+  function aoRolar() { topo.classList.toggle('rolou', window.scrollY > 8); }
+  window.addEventListener('scroll', aoRolar, { passive: true }); aoRolar();
+
+  // Curvas de nível como marca d'água
+  function desenharCurvas(cv) {
+    var seed = parseFloat(cv.getAttribute('data-semente')) || 1;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w = cv.clientWidth, h = cv.clientHeight;
+    if (!w || !h) return;
+    cv.width = w * dpr; cv.height = h * dpr;
+    var c = cv.getContext('2d'); c.scale(dpr, dpr);
+    c.clearRect(0, 0, w, h);
+    var dark = cv.closest('.contato');
+    c.strokeStyle = dark ? 'rgba(201,168,106,0.5)' : 'rgba(169,122,44,0.38)';
+    c.lineWidth = 1;
+    var cx = w * 0.5, cy = h * 0.5, n = 16;
+    for (var k = 1; k <= n; k++) {
+      var base = (w * 0.47) * (k / n);
+      c.beginPath();
+      for (var a = 0; a <= 6.2832 + 0.05; a += 0.03) {
+        var r = base * (1
+          + 0.10 * Math.sin(2 * a + seed + k * 0.11)
+          + 0.06 * Math.sin(3 * a + seed * 1.7 - k * 0.07)
+          + 0.035 * Math.sin(5 * a + seed * 2.3 + k * 0.05));
+        var x = cx + r * Math.cos(a), y = cy + r * Math.sin(a) * 0.92;
+        if (a === 0) c.moveTo(x, y); else c.lineTo(x, y);
+      }
+      c.closePath(); c.stroke();
+    }
+  }
+  var canvases = document.querySelectorAll('canvas.curvas');
+  function todas() { canvases.forEach(desenharCurvas); }
+  todas();
+  var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(todas, 150); });
+
+  // Visualizador da galeria
+  var botoes = Array.prototype.slice.call(document.querySelectorAll('#mosaico button'));
+  var visor = document.getElementById('visor'), vimg = document.getElementById('v-img');
+  var atual = 0, ultimoFoco = null;
+  function mostrar(i) {
+    atual = (i + botoes.length) % botoes.length;
+    var img = botoes[atual].querySelector('img');
+    vimg.src = img.src; vimg.alt = img.alt;
+  }
+  function abrir(i) { ultimoFoco = document.activeElement; mostrar(i); visor.classList.add('aberto'); document.getElementById('v-fechar').focus(); }
+  function fechar() { visor.classList.remove('aberto'); if (ultimoFoco) ultimoFoco.focus(); }
+  botoes.forEach(function (b, i) { b.addEventListener('click', function () { abrir(i); }); });
+  document.getElementById('v-fechar').addEventListener('click', fechar);
+  document.getElementById('v-ant').addEventListener('click', function () { mostrar(atual - 1); });
+  document.getElementById('v-prox').addEventListener('click', function () { mostrar(atual + 1); });
+  visor.addEventListener('click', function (e) { if (e.target === visor) fechar(); });
+  document.addEventListener('keydown', function (e) {
+    if (!visor.classList.contains('aberto')) return;
+    if (e.key === 'Escape') fechar();
+    if (e.key === 'ArrowLeft') mostrar(atual - 1);
+    if (e.key === 'ArrowRight') mostrar(atual + 1);
+  });
+})();
+</script>
+</body>
+</html>
